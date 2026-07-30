@@ -26,3 +26,11 @@ jobs:
       run: |
         cd src
         python -m pytest addition.py
+
+    - name: Print addition result
+      run: |
+        cd src
+        python - <<'PY'
+        from addition import add
+        print(f"Addition result: 2 + 3 = {add(2, 3)}")
+        PY
