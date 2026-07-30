@@ -11,26 +11,57 @@ jobs:
         python-version: [3.8, 3.9]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pytest
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
 
-    - name: Run tests
-      run: |
-        cd src
-        python -m pytest addition.py
+      - name: Run tests
+        run: |
+          cd src
+          python -m pytest addition.py
 
-    - name: Print addition result
-      run: |
-        cd src
-        python - <<'PY'
-        from addition import add
-        print(f"Addition result: 2 + 3 = {add(2, 3)}")
-        PY
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python for linting
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install linting tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Run linter
+        run: |
+          cd src
+          python -m flake8 addition.py
+
+  print-result:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python for printing
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Print addition result
+        run: |
+          cd src
+          python - <<'PY'
+          from addition import add
+          print(f"Addition result: 2 + 3 = {add(2, 3)}")
+          PY
