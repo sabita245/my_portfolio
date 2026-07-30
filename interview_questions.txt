@@ -1,0 +1,750 @@
+1. What happens when you execute a Linux command?
+Answer:
+
+Example:
+
+ls -l
+
+Flow:
+
+Shell receives the command.
+Shell searches command in $PATH.
+Creates a child process using fork().
+Executes command using exec().
+Kernel loads the program into memory.
+Process executes.
+Exit status is returned to shell.
+2. Difference between Linux kernel and operating system?
+Answer:
+
+Kernel
+
+Core part of OS.
+Manages CPU, memory, devices, processes.
+
+Operating System
+
+Kernel + utilities + applications.
+
+Example:
+
+Linux kernel + GNU utilities = Linux OS.
+
+3. How to check Linux version?
+
+Commands:
+
+cat /etc/os-release
+
+Example:
+
+Ubuntu 22.04 LTS
+
+or:
+
+uname -a
+4. Difference between df and du
+df
+
+Shows filesystem usage.
+
+df -h
+
+Example:
+
+Filesystem Size Used Available
+/dev/xvda 50G 20G 30G
+du
+
+Shows directory usage.
+
+du -sh /var/log
+5. How to find large files?
+find / -type f -size +1G
+
+or:
+
+du -ah / | sort -rh | head
+6. How to check memory usage?
+
+Commands:
+
+free -h
+
+Example:
+
+              total used free
+Memory        8GB   4GB  2GB
+7. Difference between RAM and Swap?
+RAM
+Fast memory.
+Used by running processes.
+Swap
+Disk-based memory.
+Used when RAM is exhausted.
+
+Check:
+
+swapon --show
+8. How to check CPU usage?
+
+Commands:
+
+top
+
+or:
+
+htop
+
+or:
+
+mpstat
+9. Load average meaning?
+
+Command:
+
+uptime
+
+Example:
+
+load average: 1.5 2.0 3.0
+
+Meaning:
+
+1 minute
+5 minutes
+15 minutes
+
+It represents processes waiting for CPU or IO.
+
+10. How to find CPU consuming processes?
+top
+
+or:
+
+ps aux --sort=-%cpu | head
+11. How to find memory consuming processes?
+ps aux --sort=-%mem | head
+12. Difference between process and thread?
+Process
+Independent execution unit.
+Has own memory.
+Thread
+Lightweight process.
+Shares memory.
+
+Example:
+
+Java application:
+
+One JVM process
+Multiple threads
+13. How to check running processes?
+ps -ef
+
+or:
+
+ps aux
+14. Difference between kill and kill -9?
+
+Normal kill:
+
+kill PID
+
+Sends:
+
+SIGTERM
+
+Application can clean up.
+
+Force kill:
+
+kill -9 PID
+
+Sends:
+
+SIGKILL
+
+Cannot be ignored.
+
+15. How to find process PID?
+
+Example:
+
+pidof nginx
+
+or:
+
+pgrep nginx
+16. How to check open ports?
+netstat -tulnp
+
+or:
+
+ss -tulnp
+17. How to check network connectivity?
+
+Ping:
+
+ping google.com
+
+Port check:
+
+telnet server 80
+
+or:
+
+nc -zv server 80
+18. Difference between TCP and UDP?
+TCP
+Connection oriented
+Reliable
+HTTP, SSH
+UDP
+Connectionless
+Faster
+DNS, streaming
+19. How SSH works?
+
+Flow:
+
+Client
+ |
+SSH handshake
+ |
+Authentication
+ |
+Encrypted session
+ |
+Remote shell
+20. SSH default port?
+22
+
+Configuration:
+
+/etc/ssh/sshd_config
+21. How to change SSH port?
+
+Edit:
+
+vi /etc/ssh/sshd_config
+
+Change:
+
+Port 2222
+
+Restart:
+
+systemctl restart sshd
+22. Explain Linux file permissions
+
+Example:
+
+-rwxr-xr--
+
+Meaning:
+
+Owner  rwx
+Group  r-x
+Others r--
+23. chmod examples
+
+Owner execute:
+
+chmod u+x script.sh
+
+Numeric:
+
+chmod 755 script.sh
+
+Meaning:
+
+7 owner
+5 group
+5 others
+24. Difference between chown and chmod?
+
+chmod:
+
+Changes permissions.
+
+Example:
+
+chmod 644 file
+
+chown:
+
+Changes ownership.
+
+Example:
+
+chown ubuntu:ubuntu file
+25. Explain inode
+
+inode stores:
+
+File metadata
+Permissions
+Owner
+Size
+Location
+
+Check:
+
+ls -i
+26. Soft link vs hard link
+
+Soft:
+
+ln -s file link
+Different inode
+Can cross filesystem
+
+Hard:
+
+ln file link
+Same inode
+27. How Linux boot process works?
+
+Steps:
+
+BIOS
+ |
+GRUB
+ |
+Kernel
+ |
+systemd
+ |
+Services
+ |
+Login
+28. What is systemd?
+
+Linux service manager.
+
+Commands:
+
+systemctl status nginx
+
+Start:
+
+systemctl start nginx
+
+Enable:
+
+systemctl enable nginx
+29. How to check logs?
+
+systemd:
+
+journalctl
+
+Specific service:
+
+journalctl -u nginx
+30. Difference between cron and systemd timer?
+
+Cron:
+
+Simple scheduling.
+
+Example:
+
+0 2 * * *
+
+Systemd timer:
+
+More control:
+
+Dependencies
+Logging
+Resource control
+31. Explain cron format
+
+Example:
+
+0 5 * * *
+
+Meaning:
+
+minute
+hour
+day
+month
+weekday
+
+Runs daily at 5 AM.
+
+32. How to find failed services?
+systemctl --failed
+33. How to check disk IO?
+
+Commands:
+
+iostat
+
+or:
+
+iotop
+34. How to check kernel logs?
+dmesg
+35. How to check mounted filesystems?
+mount
+
+or:
+
+df -h
+36. How to mount disk permanently?
+
+Edit:
+
+/etc/fstab
+
+Example:
+
+UUID=/dev/xvdf /data ext4 defaults 0 0
+37. How to check environment variables?
+env
+
+or:
+
+printenv
+38. Difference between export and local variable?
+
+Local:
+
+VAR=test
+
+Only current shell.
+
+Export:
+
+export VAR=test
+
+Child processes can access.
+
+39. How to find installed packages?
+
+Ubuntu:
+
+dpkg -l
+
+RHEL:
+
+rpm -qa
+40. How to install package?
+
+Ubuntu:
+
+apt install nginx
+
+RHEL:
+
+yum install nginx
+41. How to find command location?
+which java
+
+or:
+
+whereis java
+42. Difference between grep and egrep?
+
+grep:
+
+Basic regex.
+
+egrep:
+
+Extended regex.
+
+Example:
+
+grep "error" app.log
+43. Difference between awk and sed?
+
+awk:
+
+Column processing.
+
+Example:
+
+awk '{print $1}'
+
+sed:
+
+Text replacement.
+
+Example:
+
+sed 's/old/new/'
+44. How to replace text in Linux?
+sed -i 's/dev/prod/g' file
+45. How to compare files?
+diff file1 file2
+46. How to search text recursively?
+grep -r "ERROR" /var/log
+47. How to count lines?
+wc -l file
+48. How to monitor logs in real time?
+tail -f application.log
+49. How to find recently modified files?
+find /app -mtime -1
+50. How to troubleshoot high CPU?
+
+Steps:
+
+top
+
+Find PID:
+
+ps -fp PID
+
+Check logs:
+
+journalctl
+
+Restart or fix application.
+
+Shell Scripting Interview Questions (51-100)
+51. Difference between bash and sh?
+
+bash:
+
+Advanced shell
+Supports arrays/functions
+
+sh:
+
+POSIX shell
+Limited features
+52. What is shebang?
+
+First line:
+
+#!/bin/bash
+
+Defines interpreter.
+
+53. How to pass arguments?
+
+Script:
+
+echo $1
+
+Run:
+
+./test.sh hello
+54. Explain special variables
+Variable	Meaning
+$0	script name
+$1	first argument
+$#	argument count
+$?	exit status
+$$	process id
+55. How to check command success?
+if [ $? -eq 0 ]
+then
+echo success
+fi
+56. How to create function?
+hello()
+{
+echo "Hello"
+}
+57. How to debug shell script?
+
+Run:
+
+bash -x script.sh
+58. Difference between > and >>
+
+Overwrite:
+
+echo test > file
+
+Append:
+
+echo test >> file
+59. How to read file line by line?
+while read line
+do
+echo $line
+done < file.txt
+60. How to create infinite loop?
+while true
+do
+echo running
+sleep 5
+done
+61. How to schedule scripts?
+
+Using cron:
+
+crontab -e
+62. How to handle errors?
+set -e
+
+Exit on failure.
+
+63. How to store command output?
+DATE=$(date)
+64. How to compare numbers?
+[ $a -gt $b ]
+
+Operators:
+
+-gt
+-lt
+-eq
+-ne
+65. How to compare strings?
+if [ "$a" == "$b" ]
+66. How to check empty variable?
+if [ -z "$VAR" ]
+67. How to check directory?
+[ -d directory ]
+68. How to check file?
+[ -f file ]
+69. How to create arrays?
+servers=("a" "b" "c")
+70. Loop array
+for s in ${servers[@]}
+do
+echo $s
+done
+71. What is pipe?
+
+Example:
+
+cat file | grep error
+
+Output of one command becomes input of another.
+
+72. Explain grep options
+-i ignore case
+-r recursive
+-n line number
+-v invert
+73. How to parse JSON?
+
+Using jq:
+
+cat file.json | jq '.name'
+74. How to call REST API?
+curl https://api.example.com
+75. How to authenticate API?
+curl -u user:token URL
+76. How to check HTTP status?
+curl -w "%{http_code}" URL
+77. How to automate AWS CLI?
+
+Example:
+
+aws ec2 describe-instances
+78. How to upload backup to S3?
+aws s3 cp backup.tar.gz s3://bucket/
+79. How to automate Docker cleanup?
+docker system prune -af
+80. How to restart application automatically?
+
+Use:
+
+systemctl restart service
+81. How to check Kubernetes pods?
+kubectl get pods -A
+82. How to automate Kubernetes deployment?
+kubectl apply -f deployment.yaml
+83. How to check rollout status?
+kubectl rollout status deployment/app
+84. How to rollback deployment?
+kubectl rollout undo deployment/app
+85. How to capture script logs?
+./script.sh >> logfile 2>&1
+86. Difference between stdout and stderr?
+
+stdout:
+
+normal output
+
+stderr:
+
+errors
+87. Redirect errors?
+command 2> error.log
+88. Combine output?
+command > file 2>&1
+89. What is trap?
+
+Used for cleanup.
+
+Example:
+
+trap cleanup EXIT
+90. How to lock script execution?
+
+Using flock:
+
+flock /tmp/script.lock command
+91. How to check running script?
+ps aux | grep script
+92. How to send email from script?
+
+Example:
+
+mail -s "Alert" admin@example.com
+93. How to send Slack notification?
+
+Using webhook:
+
+curl -X POST webhook_url
+94. How to encrypt secrets?
+
+Use:
+
+AWS Secrets Manager
+Vault
+Kubernetes Secrets
+
+Avoid:
+
+PASSWORD="abc123"
+95. How to handle passwords securely?
+
+Use:
+
+read -s PASSWORD
+96. How to retry failed command?
+
+Example:
+
+for i in {1..3}
+do
+command && break
+sleep 5
+done
+97. How to run commands parallel?
+
+Example:
+
+command1 &
+command2 &
+
+wait
+98. How to monitor multiple servers?
+
+Use:
+
+ssh loop
+Ansible
+Parallel SSH
+99. How to write production-ready scripts?
+
+Include:
+
+Logging
+Error handling
+Input validation
+Configuration file
+Notifications
+Documentation

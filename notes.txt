@@ -1,0 +1,13 @@
+| Variable | Meaning                 |
+| -------- | ----------------------- |
+| `$0`     | Script name             |
+| `$1`     | First argument          |
+| `$2`     | Second argument         |
+| `$#`     | Number of arguments     |
+| `$@`     | All arguments           |
+| `$?`     | Previous command status |
+| `$$`     | Current process ID      |
+| `$USER`  | Current user            |
+| `$HOME`  | Home directory          |
+| `$PWD`   | Current directory       |
+
