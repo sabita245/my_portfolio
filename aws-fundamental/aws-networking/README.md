@@ -51,6 +51,9 @@ This directory covers essential AWS networking concepts for cloud architecture, 
 - Connectivity Options
   - AWS Direct Connect
   - AWS VPN (Site-to-Site and Client VPN)
+  - Virtual Private Gateway (VGW)
+  - Customer Gateway (CGW)
+  - VPN connections and BGP
   - AWS PrivateLink
   - AWS Cloud WAN
   - Hybrid cloud networking patterns
