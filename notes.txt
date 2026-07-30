@@ -1,3 +1,7 @@
+# Shell Script Variables
+
+This cheat sheet lists common shell variables used in scripts and command lines.
+
 | Variable | Meaning                 |
 | -------- | ----------------------- |
 | `$0`     | Script name             |

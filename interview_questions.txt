@@ -1,203 +1,207 @@
 1. What happens when you execute a Linux command?
+
 Answer:
+- Shell receives the command.
+- Shell searches the command in `$PATH`.
+- Shell creates a child process using `fork()`.
+- The child process calls `exec()` to run the program.
+- The kernel loads the program into memory.
+- The process executes.
+- The exit status is returned to the shell.
 
 Example:
+- `ls -l`
 
-ls -l
+---
 
-Flow:
-
-Shell receives the command.
-Shell searches command in $PATH.
-Creates a child process using fork().
-Executes command using exec().
-Kernel loads the program into memory.
-Process executes.
-Exit status is returned to shell.
 2. Difference between Linux kernel and operating system?
-Answer:
 
-Kernel
+Kernel:
+- Core part of the operating system.
+- Manages CPU, memory, devices, and processes.
 
-Core part of OS.
-Manages CPU, memory, devices, processes.
-
-Operating System
-
-Kernel + utilities + applications.
+Operating System:
+- Kernel plus utilities and applications.
 
 Example:
+- Linux kernel + GNU utilities = Linux OS.
 
-Linux kernel + GNU utilities = Linux OS.
+---
 
 3. How to check Linux version?
 
 Commands:
+- `cat /etc/os-release`
+- `uname -a`
 
-cat /etc/os-release
+Example output:
+- `Ubuntu 22.04 LTS`
 
-Example:
+---
 
-Ubuntu 22.04 LTS
+4. Difference between `df` and `du`
 
-or:
+`df`:
+- Shows filesystem usage.
+- Example: `df -h`
 
-uname -a
-4. Difference between df and du
-df
+`du`:
+- Shows directory usage.
+- Example: `du -sh /var/log`
 
-Shows filesystem usage.
+---
 
-df -h
-
-Example:
-
-Filesystem Size Used Available
-/dev/xvda 50G 20G 30G
-du
-
-Shows directory usage.
-
-du -sh /var/log
 5. How to find large files?
-find / -type f -size +1G
-
-or:
-
-du -ah / | sort -rh | head
-6. How to check memory usage?
 
 Commands:
+- `find / -type f -size +1G`
+- `du -ah / | sort -rh | head`
 
-free -h
+---
 
-Example:
+6. How to check memory usage?
 
-              total used free
-Memory        8GB   4GB  2GB
+Command:
+- `free -h`
+
+Example output:
+```
+              total        used        free
+Memory        8GB         4GB         2GB
+```
+
+---
+
 7. Difference between RAM and Swap?
-RAM
-Fast memory.
-Used by running processes.
-Swap
-Disk-based memory.
-Used when RAM is exhausted.
 
-Check:
+RAM:
+- Fast memory.
+- Used by running processes.
 
-swapon --show
+Swap:
+- Disk-based memory.
+- Used when RAM is exhausted.
+
+Check swap:
+- `swapon --show`
+
+---
+
 8. How to check CPU usage?
 
 Commands:
+- `top`
+- `htop`
+- `mpstat`
 
-top
+---
 
-or:
-
-htop
-
-or:
-
-mpstat
-9. Load average meaning?
+9. What does load average mean?
 
 Command:
+- `uptime`
 
-uptime
-
-Example:
-
-load average: 1.5 2.0 3.0
+Example output:
+- `load average: 1.5 2.0 3.0`
 
 Meaning:
+- First value: 1 minute
+- Second value: 5 minutes
+- Third value: 15 minutes
 
-1 minute
-5 minutes
-15 minutes
+The load average represents the number of processes waiting for CPU or I/O.
 
-It represents processes waiting for CPU or IO.
+---
 
-10. How to find CPU consuming processes?
-top
+10. How to find CPU-consuming processes?
 
-or:
+Commands:
+- `top`
+- `ps aux --sort=-%cpu | head`
 
-ps aux --sort=-%cpu | head
-11. How to find memory consuming processes?
-ps aux --sort=-%mem | head
+---
+
+11. How to find memory-consuming processes?
+
+Command:
+- `ps aux --sort=-%mem | head`
+
+---
+
 12. Difference between process and thread?
-Process
-Independent execution unit.
-Has own memory.
-Thread
-Lightweight process.
-Shares memory.
+
+Process:
+- Independent execution unit.
+- Has its own memory space.
+
+Thread:
+- Lightweight execution unit.
+- Shares memory within the same process.
 
 Example:
+- A Java application is one JVM process with multiple threads.
 
-Java application:
+---
 
-One JVM process
-Multiple threads
 13. How to check running processes?
-ps -ef
 
-or:
+Commands:
+- `ps -ef`
+- `ps aux`
 
-ps aux
-14. Difference between kill and kill -9?
+---
+
+14. Difference between `kill` and `kill -9`
 
 Normal kill:
-
-kill PID
-
-Sends:
-
-SIGTERM
-
-Application can clean up.
+- `kill PID`
+- Sends `SIGTERM`.
+- The application can clean up and exit gracefully.
 
 Force kill:
+- `kill -9 PID`
+- Sends `SIGKILL`.
+- The process cannot ignore this signal.
 
-kill -9 PID
+---
 
-Sends:
+15. How to find a process PID?
 
-SIGKILL
+Commands:
+- `pidof nginx`
+- `pgrep nginx`
 
-Cannot be ignored.
+---
 
-15. How to find process PID?
-
-Example:
-
-pidof nginx
-
-or:
-
-pgrep nginx
 16. How to check open ports?
-netstat -tulnp
 
-or:
+Commands:
+- `netstat -tulnp`
+- `ss -tulnp`
 
-ss -tulnp
+---
+
 17. How to check network connectivity?
 
-Ping:
+Commands:
+- `ping google.com`
+- `telnet server 80`
+- `nc -zv server 80`
 
-ping google.com
+---
 
-Port check:
-
-telnet server 80
-
-or:
-
-nc -zv server 80
 18. Difference between TCP and UDP?
-TCP
-Connection oriented
+
+TCP:
+- Connection oriented.
+- Reliable delivery.
+- Uses flow control and congestion control.
+
+UDP:
+- Connectionless.
+- Lower overhead.
+- Best for real-time or simple query traffic.
+
 Reliable
 HTTP, SSH
 UDP
